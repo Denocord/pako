@@ -8,6 +8,6 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v1
-            - uses: Denocord/deno-action@v1.0.4
+            - uses: Denocord/deno-action@v1.0.5
               with:
-                args: "test test/"
+                args: '["test","test/"]'
