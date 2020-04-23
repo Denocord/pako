@@ -1,8 +1,7 @@
 pako
 ==========================================
 
-[![Build Status](https://travis-ci.org/nodeca/pako.svg?branch=master)](https://travis-ci.org/nodeca/pako)
-[![NPM version](https://img.shields.io/npm/v/pako.svg)](https://www.npmjs.org/package/pako)
+[![test](https://github.com/Denocord/pako/workflows/test/badge.svg)](https://github.com/Denocord/pako/actions)
 
 > zlib port to javascript, very fast!
 
@@ -56,22 +55,13 @@ zlib's test is partially affected by marshalling (that make sense for inflate on
 You can change deflate level to 0 in benchmark source, to investigate details.
 For deflate level 6 results can be considered as correct.
 
-__Install:__
-
-node.js:
-
-```
-npm install pako
-```
-
-
 Example & API
 -------------
 
 Full docs - http://nodeca.github.io/pako/
 
 ```javascript
-var pako = require('pako');
+import pako from "https://raw.githubusercontent.com/Denocord/pako/master/mod.js";
 
 // Deflate
 //
@@ -113,7 +103,7 @@ big objects as json to server. Pako detects input data type. You can
 force output to be string with option `{ to: 'string' }`.
 
 ```javascript
-var pako = require('pako');
+import pako from "https://raw.githubusercontent.com/Denocord/pako/master/mod.js";
 
 var test = { my: 'super', puper: [456, 567], awesome: 'pako' };
 
@@ -140,17 +130,18 @@ Pako does not contain some specific zlib functions:
   modes. Those should work: Z_NO_FLUSH, Z_FINISH, Z_SYNC_FLUSH.
 
 
-pako for enterprise
+<!--pako for enterprise
 -------------------
 
 Available as part of the Tidelift Subscription
 
-The maintainers of pako and thousands of other packages are working with Tidelift to deliver commercial support and maintenance for the open source dependencies you use to build your applications. Save time, reduce risk, and improve code health, while paying the maintainers of the exact dependencies you use. [Learn more.](https://tidelift.com/subscription/pkg/npm-pako?utm_source=npm-pako&utm_medium=referral&utm_campaign=enterprise&utm_term=repo)
+The maintainers of pako and thousands of other packages are working with Tidelift to deliver commercial support and maintenance for the open source dependencies you use to build your applications. Save time, reduce risk, and improve code health, while paying the maintainers of the exact dependencies you use. [Learn more.](https://tidelift.com/subscription/pkg/npm-pako?utm_source=npm-pako&utm_medium=referral&utm_campaign=enterprise&utm_term=repo)-->
 
 
 Authors
 -------
 
+- TTtie [@TTtie](https://github.com/TTtie) - Deno port
 - Andrey Tupitsin [@anrd83](https://github.com/andr83)
 - Vitaly Puzrin [@puzrin](https://github.com/puzrin)
 
