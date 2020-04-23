@@ -1,0 +1,13 @@
+name: test
+on: 
+    - push
+    - pull_request
+
+jobs:
+    unit-tests:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v1
+            - uses: Denocord/deno-action@v1
+              with:
+                args: [test, test/]
