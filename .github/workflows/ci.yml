@@ -10,4 +10,4 @@ jobs:
             - uses: actions/checkout@v1
             - uses: Denocord/deno-action@v1
               with:
-                args: [test, test/]
+                args: "test test/"
