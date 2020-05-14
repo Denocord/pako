@@ -55,7 +55,7 @@ describe('Gzip special cases', function () {
     inflator.push(deflator.result, true);
 
     assert.assertEquals(inflator.err, 0);
-    assert.assertEquals(inflator.result, new TextDecoder().decode(data));
+    assert.assertEquals(inflator.result, new TextEncoder().encode(data));
 
     var header = inflator.header;
     assert.assertEquals(header.time, 1234567);
