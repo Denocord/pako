@@ -101,21 +101,20 @@ var output = inflator.result;
 ```
 
 Sometime you can wish to work with strings. For example, to send
-big objects as json to server. Pako detects input data type. You can
-force output to be string with option `{ to: 'string' }`.
+big objects as json to server. Pako detects input data type.
 
 ```javascript
 import pako from "https://raw.githubusercontent.com/Denocord/pako/master/mod.js";
 
 var test = { my: 'super', puper: [456, 567], awesome: 'pako' };
 
-var binaryString = pako.deflate(JSON.stringify(test), { to: 'string' });
+var data = pako.deflate(JSON.stringify(test));
 
 //
 // Here you can do base64 encode, make xhr requests and so on.
 //
 
-var restored = JSON.parse(pako.inflate(binaryString, { to: 'string' }));
+var restored = JSON.parse(new TextDecoder().decode(pako.inflate(data)));
 ```
 
 

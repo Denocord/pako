@@ -54,7 +54,7 @@ describe('Encode/Decode', function () {
   // Create sample, that contains all types of utf8 (1-4byte) after conversion
   var utf16sample = a2utf16([ 0x1f3b5, 'a', 0x266a, 0x35, 0xe800, 0x10ffff, 0x0fffff ]);
   // use node Buffer internal conversion as "done right"
-  var utf8sample = new Uint8Array(b(utf16sample));
+  var utf8sample = b(utf16sample);
 
   it('utf-8 border detect', function () {
     var ub = strings.utf8border;
@@ -86,17 +86,6 @@ describe('Encode/Decode', function () {
     assert.assertEquals(ub(utf8sample, 20), 20);
   });
 
-  it('Encode string to utf8 buf', function () {
-    assert.assert(cmp(
-      strings.string2buf(utf16sample),
-      utf8sample
-    ));
-  });
-
-  it('Decode utf8 buf to string', function () {
-    assert.assert(strings.buf2string(utf8sample), utf16sample);
-  });
-
 });
 
 
@@ -114,24 +103,9 @@ describe('Deflate/Inflate strings', function () {
     ));
   });
 
-  it('Deflate with binary string output', function () {
-    var data = pako.deflate(sampleArray, { to: 'string', chunkSize: 99 });
-    assert.assertEquals(typeof data, 'string');
-    assert.assertEquals(pako.deflate(sampleArray, { chunkSize: 99 }), b(data, true));
-  });
-
   it('Inflate binary string input', function () {
-    var deflatedString = pako.deflate(sampleArray, { to: 'string' });
+    var deflatedString = pako.deflate(sampleArray);
     var deflatedArray  = pako.deflate(sampleArray);
     assert.assert(cmp(pako.inflate(deflatedString), pako.inflate(deflatedArray)));
   });
-
-  it('Inflate with javascript string (utf16) output', function () {
-    var deflatedArray  = pako.deflate(sampleArray);
-    var data = pako.inflate(deflatedArray, { to: 'string', chunkSize: 99 });
-
-    assert.assertEquals(typeof data, 'string');
-    assert.assertEquals(data, sampleString);
-  });
-
 });
