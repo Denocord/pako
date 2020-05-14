@@ -51,11 +51,11 @@ describe('Gzip special cases', function () {
     });
     deflator.push(data, true);
 
-    var inflator = new pako.Inflate({ to: 'string' });
+    var inflator = new pako.Inflate();
     inflator.push(deflator.result, true);
 
     assert.assertEquals(inflator.err, 0);
-    assert.assertEquals(inflator.result, data);
+    assert.assertEquals(inflator.result, new TextDecoder().decode(data));
 
     var header = inflator.header;
     assert.assertEquals(header.time, 1234567);
