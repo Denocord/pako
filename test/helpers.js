@@ -35,7 +35,7 @@ const { __dirname } = dirname(import.meta);
 function loadSamples(subdir) {
   var result = {};
   var dir = path.join(__dirname, 'fixtures', subdir || 'samples');
-  Array.from(Deno.readdirSync(dir)).sort().forEach(function (sample) {
+  Array.from(Deno.readDirSync(dir)).sort().forEach(function (sample) {
     var filepath = path.join(dir, sample.name),
         extname  = path.extname(filepath),
         basename = path.basename(filepath, extname),
