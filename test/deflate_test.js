@@ -11,8 +11,8 @@ import * as helpers from "./helpers.js";
 var { testSamples } = helpers;
 
 
-import * as assert from "https://deno.land/std/testing/asserts.ts";
-import * as path from "https://deno.land/std/path/mod.ts";
+import * as assert from "https://deno.land/std@v0.50.0/testing/asserts.ts";
+import * as path from "https://deno.land/std@v0.50.0/path/mod.ts";
 const _te = new TextEncoder();
 var b = d => {
   if (d instanceof Uint8Array) return d;
