@@ -62,6 +62,8 @@ Full docs - http://nodeca.github.io/pako/
 
 ```javascript
 import pako from "https://raw.githubusercontent.com/Denocord/pako/master/mod.js";
+// or
+import { deflate, inflate, Inflate } from "https://raw.githubusercontent.com/Denocord/pako/master/mod.js";
 
 // Deflate
 //
