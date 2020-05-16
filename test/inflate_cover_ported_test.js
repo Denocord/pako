@@ -34,13 +34,12 @@ function testInflate(hex, wbits, status) {
   assert.assertEquals(inflator.err, status);
 }
 
-const it = (name, fn) => Deno.test({
-  name,
+const describe = (name, func) => func((_name, fn) => Deno.test({
+  name: `${name}: ${_name}`,
   fn
-}),
-describe = (_, func) => func();
+}));
 
-describe('Inflate states', function () {
+describe('Inflate states', function (it) {
   //in port checking input parameters was removed
   it('inflate bad parameters', function () {
     var ret;
@@ -90,7 +89,7 @@ describe('Inflate states', function () {
   });
 });
 
-describe('Inflate cover', function () {
+describe('Inflate cover', function (it) {
   it('invalid stored block lengths', function () {
     testInflate('0 0 0 0 0', -15, c.Z_DATA_ERROR);
   });
@@ -160,7 +159,7 @@ describe('Inflate cover', function () {
   });
 });
 
-describe('cover trees', function () {
+describe('cover trees', function (it) {
   it('inflate_table not enough errors', function () {
     var ret, bits, next, table = [], lens = [], work = [];
     var DISTS = 2;
@@ -181,7 +180,7 @@ describe('cover trees', function () {
   });
 });
 
-describe('Inflate fast', function () {
+describe('Inflate fast', function (it) {
   it('fast length extra bits', function () {
     testInflate('e5 e0 81 ad 6d cb b2 2c c9 01 1e 59 63 ae 7d ee fb 4d fd b5 35 41 68' +
       ' ff 7f 0f 0 0 0', -8, c.Z_DATA_ERROR);
@@ -207,7 +206,7 @@ describe('Inflate fast', function () {
   });
 });
 
-describe('Inflate support', function () {
+describe('Inflate support', function (it) {
   // `inflatePrime` not implemented
   /*it('prime', function() {
     var ret;

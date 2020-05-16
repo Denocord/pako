@@ -25,14 +25,13 @@ import { dirname } from "./helpers.js";
 const { __dirname } = dirname(import.meta);
 
 
-const it = (name, fn) => Deno.test({
-  name,
+const describe = (name, func) => func((_name, fn) => Deno.test({
+  name: `${name}: ${_name}`,
   fn
-}),
-describe = (_, func) => func();
+}));
 
 
-describe('Deflate defaults', function () {
+describe('Deflate defaults', function (it) {
 
   it('deflate, no options', function () {
     testSamples(zlib.deflateSync, pako.deflate, samples, {});
@@ -49,7 +48,7 @@ describe('Deflate defaults', function () {
 });
 
 
-describe('Deflate levels', function () {
+describe('Deflate levels', function (it) {
 
   it('level 9', function () {
     testSamples(zlib.deflateSync, pako.deflate, samples, { level: 9 });
@@ -87,7 +86,7 @@ describe('Deflate levels', function () {
 });
 
 
-describe('Deflate windowBits', function () {
+describe('Deflate windowBits', function (it) {
 
   it('windowBits 15', function () {
     testSamples(zlib.deflateSync, pako.deflate, samples, { windowBits: 15 });
@@ -120,7 +119,7 @@ describe('Deflate windowBits', function () {
 });
 
 
-describe('Deflate memLevel', function () {
+describe('Deflate memLevel', function (it) {
 
   it('memLevel 9', function () {
     testSamples(zlib.deflateSync, pako.deflate, samples, { memLevel: 9 });
@@ -153,7 +152,7 @@ describe('Deflate memLevel', function () {
 });
 
 
-describe('Deflate strategy', function () {
+describe('Deflate strategy', function (it) {
 
   it('Z_DEFAULT_STRATEGY', function () {
     testSamples(zlib.deflateSync, pako.deflate, samples, { strategy: 0 });
@@ -174,7 +173,7 @@ describe('Deflate strategy', function () {
 });
 
 
-describe('Deflate RAW', function () {
+describe('Deflate RAW', function (it) {
   // Since difference is only in rwapper, test for store/fast/slow methods are enough
   it('level 4', function () {
     testSamples(zlib.deflateRawSync, pako.deflateRaw, samples, { level: 4 });
@@ -189,7 +188,7 @@ describe('Deflate RAW', function () {
 });
 
 
-describe('Deflate dictionary', function () {
+describe('Deflate dictionary', function (it) {
 
   it('trivial dictionary', function () {
     var dict = b('abcdefghijklmnoprstuvwxyz');
@@ -221,7 +220,7 @@ describe('Deflate dictionary', function () {
 });
 
 
-describe('Deflate issues', function () {
+describe('Deflate issues', function (it) {
 
   it('#78', function () {
     var data = Deno.readFileSync(path.join(__dirname, 'fixtures', 'issue_78.bin'));

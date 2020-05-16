@@ -14,13 +14,12 @@ var { testInflate, dirname } = helpers;
 const { __dirname } = dirname(import.meta);
 
 var samples = helpers.loadSamples();
-const it = (name, fn) => Deno.test({
-  name,
+const describe = (name, func) => func((_name, fn) => Deno.test({
+  name: `${name}: ${_name}`,
   fn
-}),
-describe = (_, func) => func();
+}));
 
-describe('Inflate defaults', function () {
+describe('Inflate defaults', function (it) {
 
   it('inflate, no options', function () {
     testInflate(samples, {}, {});
@@ -37,7 +36,7 @@ describe('Inflate defaults', function () {
 });
 
 
-describe('Inflate ungzip', function () {
+describe('Inflate ungzip', function (it) {
   it('with autodetect', function () {
     testInflate(samples, {}, { gzip: true });
   });
@@ -48,7 +47,7 @@ describe('Inflate ungzip', function () {
 });
 
 
-describe('Inflate levels', function () {
+describe('Inflate levels', function (it) {
 
   it('level 9', function () {
     testInflate(samples, {}, { level: 9 });
@@ -83,7 +82,7 @@ describe('Inflate levels', function () {
 });
 
 
-describe('Inflate windowBits', function () {
+describe('Inflate windowBits', function (it) {
 
   it('windowBits 15', function () {
     testInflate(samples, {}, { windowBits: 15 });
@@ -111,7 +110,7 @@ describe('Inflate windowBits', function () {
   });
 });
 
-describe('Inflate strategy', function () {
+describe('Inflate strategy', function (it) {
 
   it('Z_DEFAULT_STRATEGY', function () {
     testInflate(samples, {}, { strategy: 0 });
@@ -131,7 +130,7 @@ describe('Inflate strategy', function () {
 });
 
 
-describe('Inflate RAW', function () {
+describe('Inflate RAW', function (it) {
   // Since difference is only in rwapper, test for store/fast/slow methods are enough
   it('level 9', function () {
     testInflate(samples, { raw: true }, { level: 9, raw: true });
@@ -166,7 +165,7 @@ describe('Inflate RAW', function () {
 });
 
 
-describe('Inflate with dictionary', function () {
+describe('Inflate with dictionary', function (it) {
 
   it('should throw on the wrong dictionary', function () {
     // var zCompressed = helpers.deflateSync('world', { dictionary: b('hello') });

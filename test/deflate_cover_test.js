@@ -25,13 +25,12 @@ function testDeflate(data, opts, flush) {
 
   assert.equal(deflator.err, false, msg[deflator.err]);
 }
-const it = (name, fn) => Deno.test({
-  name,
+const describe = (name, func) => func((_name, fn) => Deno.test({
+  name: `${name}: ${_name}`,
   fn
-}),
-describe = (_, func) => func();
+}));
 
-describe('Deflate support', function () {
+describe('Deflate support', function (it) {
   it('stored', function () {
     testDeflate(short_sample, { level: 0, chunkSize: 200 }, 0);
     testDeflate(short_sample, { level: 0, chunkSize: 10 }, 5);
@@ -57,7 +56,7 @@ describe('Deflate support', function () {
   });
 });
 
-describe('Deflate states', function () {
+describe('Deflate states', function (it) {
   //in port checking input parameters was removed
   it('inflate bad parameters', function () {
     var ret, strm;

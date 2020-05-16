@@ -16,14 +16,12 @@ function a2s(array) {
   return String.fromCharCode.apply(null, array);
 }
 
-const it = (name, fn) => Deno.test({
-  name,
+const describe = (name, func) => func((_name, fn) => Deno.test({
+  name: `${name}: ${_name}`,
   fn
-}),
-describe = (_, func) => func();
+}));
 
-
-describe('Gzip special cases', function () {
+describe('Gzip special cases', function (it) {
 
   it('Read custom headers', function () {
     var data = Deno.readFileSync(path.join(__dirname, 'fixtures/gzip-headers.gz'));

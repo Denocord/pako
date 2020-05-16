@@ -16,11 +16,10 @@ const { __dirname } = dirname(import.meta);
 const _td = new TextDecoder();
 const bufToString = d => _td.decode(d);
 
-const it = (name, fn) => Deno.test({
-  name,
+const describe = (name, func) => func((_name, fn) => Deno.test({
+  name: `${name}: ${_name}`,
   fn
-}),
-describe = (_, func) => func();
+}));
 
 // fromCharCode, but understands right > 0xffff values
 function fixedFromCharCode(code) {
@@ -49,7 +48,7 @@ function a2utf16(arr) {
 
 
 
-describe('Encode/Decode', function () {
+describe('Encode/Decode', function (it) {
 
   // Create sample, that contains all types of utf8 (1-4byte) after conversion
   var utf16sample = a2utf16([ 0x1f3b5, 'a', 0x266a, 0x35, 0xe800, 0x10ffff, 0x0fffff ]);
@@ -89,7 +88,7 @@ describe('Encode/Decode', function () {
 });
 
 
-describe('Deflate/Inflate strings', function () {
+describe('Deflate/Inflate strings', function (it) {
 
   var file = path.join(__dirname, 'fixtures/samples/lorem_utf_100k.txt');
   var sampleString = bufToString(Deno.readFileSync(file));

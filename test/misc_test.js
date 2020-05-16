@@ -10,13 +10,12 @@ import * as path from "https://deno.land/std@v0.50.0/path/mod.ts";
 import { dirname } from "./helpers.js";
 const { __dirname } = dirname(import.meta);
 
-const it = (name, fn) => Deno.test({
-  name,
+const describe = (name, func) => func((_name, fn) => Deno.test({
+  name: `${name}: ${_name}`,
   fn
-}),
-describe = (_, func) => func();
+}));
 
-describe('ArrayBuffer', function () {
+describe('ArrayBuffer', function (it) {
 
   var file   = path.join(__dirname, 'fixtures/samples/lorem_utf_100k.txt');
   var sample = Deno.readFileSync(file);
