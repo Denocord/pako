@@ -16,7 +16,7 @@ export function dirname({ url = import.meta.url }) {
   let f = u.protocol === 'file:' ? u.pathname : url;
   let d = f.replace(/[/][^/]*$/, '');
   // The prepended forward slash breaks the path module
-  if (Deno.build.os === "win") d = d.slice(1);
+  if (Deno.build.os === "windows") d = d.slice(1);
   return {
     d,
     f,
