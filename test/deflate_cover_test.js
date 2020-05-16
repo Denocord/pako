@@ -15,11 +15,11 @@ import { dirname } from "./helpers.js";
 const { __dirname } = dirname(import.meta);
 
 
-var short_sample = 'hello world';
-var long_sample = Deno.readFileSync(path.join(__dirname, 'fixtures/samples/lorem_en_100k.txt'));
+const short_sample = 'hello world';
+const long_sample = Deno.readFileSync(path.join(__dirname, 'fixtures/samples/lorem_en_100k.txt'));
 
 function testDeflate(data, opts, flush) {
-  var deflator = new pako.Deflate(opts);
+  const deflator = new pako.Deflate(opts);
   deflator.push(data, flush);
   deflator.push(data, true);
 
@@ -59,7 +59,7 @@ describe('Deflate support', function (it) {
 describe('Deflate states', function (it) {
   //in port checking input parameters was removed
   it('inflate bad parameters', function () {
-    var ret, strm;
+    let ret, strm;
 
     ret = zlib_deflate.deflate(null, 0);
     assert.assert(ret === c.Z_STREAM_ERROR);

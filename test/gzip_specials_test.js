@@ -24,8 +24,8 @@ const describe = (name, func) => func((_name, fn) => Deno.test({
 describe('Gzip special cases', function (it) {
 
   it('Read custom headers', function () {
-    var data = Deno.readFileSync(path.join(__dirname, 'fixtures/gzip-headers.gz'));
-    var inflator = new pako.Inflate();
+    const data = Deno.readFileSync(path.join(__dirname, 'fixtures/gzip-headers.gz'));
+    const inflator = new pako.Inflate();
     inflator.push(data, true);
 
     assert.assertEquals(inflator.header.name, 'test name');
@@ -34,9 +34,9 @@ describe('Gzip special cases', function (it) {
   });
 
   it('Write custom headers', function () {
-    var data = '           ';
+    const data = '           ';
 
-    var deflator = new pako.Deflate({
+    const deflator = new pako.Deflate({
       gzip: true,
       header: {
         hcrc: true,
@@ -49,13 +49,13 @@ describe('Gzip special cases', function (it) {
     });
     deflator.push(data, true);
 
-    var inflator = new pako.Inflate();
+    const inflator = new pako.Inflate();
     inflator.push(deflator.result, true);
 
     assert.assertEquals(inflator.err, 0);
     assert.assertEquals(inflator.result, new TextEncoder().encode(data));
 
-    var header = inflator.header;
+    const { header } = inflator;
     assert.assertEquals(header.time, 1234567);
     assert.assertEquals(header.os, 15);
     assert.assertEquals(header.name, 'test name');
@@ -64,8 +64,8 @@ describe('Gzip special cases', function (it) {
   });
 
   it('Read stream with SYNC marks', function () {
-    var inflator, strm, _in, len, pos = 0, i = 0;
-    var data = Deno.readFileSync(path.join(__dirname, 'fixtures/gzip-joined.gz'));
+    let inflator, strm, _in, len, pos = 0, i = 0;
+    const data = Deno.readFileSync(path.join(__dirname, 'fixtures/gzip-joined.gz'));
 
     do {
       len = data.length - pos;

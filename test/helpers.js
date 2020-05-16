@@ -33,10 +33,10 @@ const { __dirname } = dirname(import.meta);
 // return: { 'filename1': content1, 'filename2': content2, ...}
 //
 function loadSamples(subdir) {
-  var result = {};
-  var dir = path.join(__dirname, 'fixtures', subdir || 'samples');
-  Array.from(Deno.readDirSync(dir)).sort().forEach(function (sample) {
-    var filepath = path.join(dir, sample.name),
+  const result = {};
+  const dir = path.join(__dirname, 'fixtures', subdir || 'samples');
+  for (const sample of Deno.readDirSync(dir)) {
+    const filepath = path.join(dir, sample.name),
         extname  = path.extname(filepath),
         basename = path.basename(filepath, extname),
         content  = Deno.readFileSync(filepath);
@@ -44,7 +44,7 @@ function loadSamples(subdir) {
     if (basename[0] === '_') { return; } // skip files with name, started with dash
 
     result[basename] = content;
-  });
+  };
 
   return result;
 }
@@ -53,14 +53,14 @@ function loadSamples(subdir) {
 // Use zlib streams, because it's the only way to define options.
 //
 function testSingle(zlib_method, pako_method, data, options) {
-  var zlib_options = Object.assign({}, options);
+  const zlib_options = Object.assign({}, options);
 
   // hack for testing negative windowBits
   if (zlib_options.windowBits < 0) { zlib_options.windowBits = -zlib_options.windowBits; }
 
   // Until zlib bindings will be implemented into deno, force equal result
   //var zlib_result = zlib_method(b, zlib_options);
-  var pako_result = pako_method(data, options),
+  const pako_result = pako_method(data, options),
     zlib_result = pako_result;
 
   // One more hack: gzip header contains OS code, that can vary.
@@ -76,7 +76,7 @@ function testSingle(zlib_method, pako_method, data, options) {
 function testSamples(zlib_method, pako_method, samples, options) {
 
   Object.keys(samples).forEach(function (name) {
-    var data = samples[name];
+    const data = samples[name];
 
     // with untyped arrays
     pako_utils.setTyped(false);
@@ -90,7 +90,7 @@ function testSamples(zlib_method, pako_method, samples, options) {
 
 
 function testInflate(samples, inflateOptions, deflateOptions) {
-  var name, data, deflated, inflated;
+  let name, data, deflated, inflated;
 
   // inflate options have windowBits = 0 to force autodetect window size
   //

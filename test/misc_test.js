@@ -17,9 +17,9 @@ const describe = (name, func) => func((_name, fn) => Deno.test({
 
 describe('ArrayBuffer', function (it) {
 
-  var file   = path.join(__dirname, 'fixtures/samples/lorem_utf_100k.txt');
-  var sample = Deno.readFileSync(file);
-  var deflated = pako.deflate(sample);
+  const file   = path.join(__dirname, 'fixtures/samples/lorem_utf_100k.txt');
+  const sample = Deno.readFileSync(file);
+  const deflated = pako.deflate(sample);
   const buffer = sample.buffer.slice(sample.byteOffset, sample.byteLength);
 
   it('Deflate ArrayBuffer', function () {

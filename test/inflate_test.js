@@ -4,16 +4,16 @@
 'use strict';
 
 
-var zlib        = {};
+const zlib        = {};
 import * as assert from "https://deno.land/std@v0.50.0/testing/asserts.ts";
 import pako from "../mod.js";
 import * as helpers from "./helpers.js";
 import * as path from "https://deno.land/std@v0.50.0/path/mod.ts";
-var { testInflate, dirname } = helpers;
+const { testInflate, dirname } = helpers;
 
 const { __dirname } = dirname(import.meta);
 
-var samples = helpers.loadSamples();
+const samples = helpers.loadSamples();
 const describe = (name, func) => func((_name, fn) => Deno.test({
   name: `${name}: ${_name}`,
   fn
@@ -30,7 +30,7 @@ describe('Inflate defaults', function (it) {
   });
 
   it('inflate raw from compressed samples', function () {
-    var compressed_samples = helpers.loadSamples('samples_deflated_raw');
+    const compressed_samples = helpers.loadSamples('samples_deflated_raw');
     helpers.testSamples(zlib.inflateRawSync, pako.inflateRaw, compressed_samples, {});
   });
 });
@@ -169,7 +169,7 @@ describe('Inflate with dictionary', function (it) {
 
   it('should throw on the wrong dictionary', function () {
     // var zCompressed = helpers.deflateSync('world', { dictionary: b('hello') });
-    var zCompressed = new Uint8Array([ 120, 187, 6, 44, 2, 21, 43, 207, 47, 202, 73, 1, 0, 6, 166, 2, 41 ]);
+    const zCompressed = new Uint8Array([ 120, 187, 6, 44, 2, 21, 43, 207, 47, 202, 73, 1, 0, 6, 166, 2, 41 ]);
 
     assert.assertThrows(function () {
       pako.inflate(zCompressed, { dictionary: 'world' });
@@ -177,36 +177,36 @@ describe('Inflate with dictionary', function (it) {
   });
 
   it('trivial dictionary', function () {
-    var dict = 'abcdefghijklmnoprstuvwxyz';
+    const dict = 'abcdefghijklmnoprstuvwxyz';
     testInflate(samples, { dictionary: dict }, { dictionary: dict });
   });
 
   it('spdy dictionary', function () {
-    var spdyDict = Deno.readFileSync(path.join(__dirname, 'fixtures', 'spdy_dict.txt'));
+    const spdyDict = Deno.readFileSync(path.join(__dirname, 'fixtures', 'spdy_dict.txt'));
     testInflate(samples, { dictionary: spdyDict }, { dictionary: spdyDict });
   });
 
   it('should throw if directory is not supplied to raw inflate', function () {
-    var dict = 'abcdefghijklmnoprstuvwxyz';
+    const dict = 'abcdefghijklmnoprstuvwxyz';
     assert.assertThrows(function () {
       testInflate(samples, { raw: true }, { raw: true, dictionary: dict });
     });
   });
 
   it('tests raw inflate with spdy dictionary', function () {
-    var spdyDict = Deno.readFileSync(path.join(__dirname, 'fixtures', 'spdy_dict.txt'));
+    const spdyDict = Deno.readFileSync(path.join(__dirname, 'fixtures', 'spdy_dict.txt'));
     testInflate(samples, { raw: true, dictionary: spdyDict }, { raw: true, dictionary: spdyDict });
   });
 
   it('tests dictionary as Uint8Array', function () {
-    var dict = new Uint8Array(100);
-    for (var i = 0; i < 100; i++) dict[i] = Math.random() * 256;
+    const dict = new Uint8Array(100);
+    for (let i = 0; i < 100; i++) dict[i] = Math.random() * 256;
     testInflate(samples, { dictionary: dict }, { dictionary: dict });
   });
 
   it('tests dictionary as ArrayBuffer', function () {
-    var dict = new Uint8Array(100);
-    for (var i = 0; i < 100; i++) dict[i] = Math.random() * 256;
+    const dict = new Uint8Array(100);
+    for (let i = 0; i < 100; i++) dict[i] = Math.random() * 256;
     testInflate(samples, { dictionary: dict.buffer }, { dictionary: dict });
   });
 });

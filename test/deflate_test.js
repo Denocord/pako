@@ -7,21 +7,16 @@
 //var zlib = require('zlib');
 var zlib = {};
 import pako from "../mod.js";
-import * as helpers from "./helpers.js";
-var { testSamples } = helpers;
-
-
+import { testSamples, loadSamples, dirname, cmpBuf } from "./helpers.js";
 import * as assert from "https://deno.land/std@v0.50.0/testing/asserts.ts";
 import * as path from "https://deno.land/std@v0.50.0/path/mod.ts";
 const _te = new TextEncoder();
-var b = d => {
+const b = d => {
   if (d instanceof Uint8Array) return d;
   return _te.encode(d);
 }
 
-var samples = helpers.loadSamples();
-
-import { dirname } from "./helpers.js";
+const samples = loadSamples();
 const { __dirname } = dirname(import.meta);
 
 
@@ -191,19 +186,19 @@ describe('Deflate RAW', function (it) {
 describe('Deflate dictionary', function (it) {
 
   it('trivial dictionary', function () {
-    var dict = b('abcdefghijklmnoprstuvwxyz');
+    const dict = b('abcdefghijklmnoprstuvwxyz');
     testSamples(zlib.deflateSync, pako.deflate, samples, { dictionary: dict });
   });
 
   it('spdy dictionary', function () {
-    var spdyDict = Deno.readFileSync(path.join(__dirname, 'fixtures', 'spdy_dict.txt'));
+    const spdyDict = Deno.readFileSync(path.join(__dirname, 'fixtures', 'spdy_dict.txt'));
 
     testSamples(zlib.deflateSync, pako.deflate, samples, { dictionary: spdyDict });
   });
 
   it('handles multiple pushes', function () {
-    var dict = b('abcd');
-    var deflate = new pako.Deflate({ dictionary: dict });
+    const dict = b('abcd');
+    const deflate = new pako.Deflate({ dictionary: dict });
 
     deflate.push(b('hello'), false);
     deflate.push(b('hello'), false);
@@ -211,9 +206,9 @@ describe('Deflate dictionary', function (it) {
 
     if (deflate.err) { throw new Error(deflate.err); }
 
-    var uncompressed = pako.inflate(b(deflate.result), { dictionary: dict });
+    const uncompressed = pako.inflate(b(deflate.result), { dictionary: dict });
 
-    if (!helpers.cmpBuf(b('hellohello world'), uncompressed)) {
+    if (!cmpBuf(b('hellohello world'), uncompressed)) {
       throw new Error('Result not equal for p -> z');
     }
   });
@@ -223,9 +218,9 @@ describe('Deflate dictionary', function (it) {
 describe('Deflate issues', function (it) {
 
   it('#78', function () {
-    var data = Deno.readFileSync(path.join(__dirname, 'fixtures', 'issue_78.bin'));
-    var deflatedPakoData = pako.deflate(data, { memLevel: 1 });
-    var inflatedPakoData = pako.inflate(deflatedPakoData);
+    const data = Deno.readFileSync(path.join(__dirname, 'fixtures', 'issue_78.bin'));
+    const deflatedPakoData = pako.deflate(data, { memLevel: 1 });
+    const inflatedPakoData = pako.inflate(deflatedPakoData);
 
     assert.equal(data.length, inflatedPakoData.length);
   });

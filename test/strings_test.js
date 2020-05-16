@@ -51,9 +51,9 @@ function a2utf16(arr) {
 describe('Encode/Decode', function (it) {
 
   // Create sample, that contains all types of utf8 (1-4byte) after conversion
-  var utf16sample = a2utf16([ 0x1f3b5, 'a', 0x266a, 0x35, 0xe800, 0x10ffff, 0x0fffff ]);
+  const utf16sample = a2utf16([ 0x1f3b5, 'a', 0x266a, 0x35, 0xe800, 0x10ffff, 0x0fffff ]);
   // use node Buffer internal conversion as "done right"
-  var utf8sample = b(utf16sample);
+  const utf8sample = b(utf16sample);
 
   it('utf-8 border detect', function () {
     var ub = strings.utf8border;
@@ -90,9 +90,9 @@ describe('Encode/Decode', function (it) {
 
 describe('Deflate/Inflate strings', function (it) {
 
-  var file = path.join(__dirname, 'fixtures/samples/lorem_utf_100k.txt');
-  var sampleString = bufToString(Deno.readFileSync(file));
-  var sampleArray  = Deno.readFileSync(file);
+  const file = path.join(__dirname, 'fixtures/samples/lorem_utf_100k.txt');
+  const sampleString = bufToString(Deno.readFileSync(file));
+  const sampleArray  = Deno.readFileSync(file);
   
 
   it('Deflate javascript string (utf16) on input', function () {
@@ -103,8 +103,8 @@ describe('Deflate/Inflate strings', function (it) {
   });
 
   it('Inflate binary string input', function () {
-    var deflatedString = pako.deflate(sampleArray);
-    var deflatedArray  = pako.deflate(sampleArray);
+    const deflatedString = pako.deflate(sampleArray);
+    const deflatedArray  = pako.deflate(sampleArray);
     assert.assert(cmp(pako.inflate(deflatedString), pako.inflate(deflatedArray)));
   });
 });

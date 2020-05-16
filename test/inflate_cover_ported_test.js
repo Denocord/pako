@@ -23,7 +23,7 @@ function h2b(hex) {
 //step argument from original tests is missing because it have no effect
 //we have similar behavior in chunks.js tests
 function testInflate(hex, wbits, status) {
-  var inflator;
+  let inflator;
   try {
     inflator = new pako.Inflate({ windowBits: wbits });
   } catch (e) {
