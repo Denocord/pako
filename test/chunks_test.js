@@ -1,6 +1,6 @@
 'use strict';
 
-import * as assert from "https://deno.land/std@v0.50.0/testing/asserts.ts";
+import * as assert from "https://deno.land/std@v0.65.0/testing/asserts.ts";
 import * as helpers from "./helpers.js";
 import * as pako_utils from "../lib/utils/common.js";
 import pako from "../mod.js";
