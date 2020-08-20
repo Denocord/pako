@@ -6,7 +6,7 @@
 'use strict';
 
 
-import * as assert from "https://deno.land/std@v0.65.0/testing/asserts.ts";
+import * as assert from "https://deno.land/std@0.65.0/testing/asserts.ts";
 
 import c from "../lib/zlib/constants.js";
 import msg from "../lib/zlib/messages.js";
