@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 import { equal as cmpBuf } from "https://deno.land/std@0.65.0/bytes/mod.ts";
 import * as assert from "https://deno.land/std@0.65.0/testing/asserts.ts";
@@ -7,14 +7,13 @@ import * as path from "https://deno.land/std@0.65.0/path/mod.ts";
 import * as pako_utils from "../lib/utils/common.js";
 import pako from "../mod.js";
 
-
-// Imported from https://deno.land/x/dirname/mod.ts and ported 
+// Imported from https://deno.land/x/dirname/mod.ts and ported
 // to regular JavaScript
 // Copyright (c) 2019 Rafał Pocztarski. All rights reserved. MIT license.
 export function dirname({ url = import.meta.url }) {
   const u = new URL(url);
-  let f = u.protocol === 'file:' ? u.pathname : url;
-  let d = f.replace(/[/][^/]*$/, '');
+  let f = u.protocol === "file:" ? u.pathname : url;
+  let d = f.replace(/[/][^/]*$/, "");
   // The prepended forward slash breaks the path module
   if (Deno.build.os === "windows") d = d.slice(1);
   return {
@@ -34,17 +33,17 @@ const { __dirname } = dirname(import.meta);
 //
 function loadSamples(subdir) {
   const result = {};
-  const dir = path.join(__dirname, 'fixtures', subdir || 'samples');
+  const dir = path.join(__dirname, "fixtures", subdir || "samples");
   for (const sample of Deno.readDirSync(dir)) {
     const filepath = path.join(dir, sample.name),
-        extname  = path.extname(filepath),
-        basename = path.basename(filepath, extname),
-        content  = Deno.readFileSync(filepath);
+      extname = path.extname(filepath),
+      basename = path.basename(filepath, extname),
+      content = Deno.readFileSync(filepath);
 
-    if (basename[0] === '_') { return; } // skip files with name, started with dash
+    if (basename[0] === "_") return; // skip files with name, started with dash
 
     result[basename] = content;
-  };
+  }
 
   return result;
 }
@@ -56,7 +55,9 @@ function testSingle(zlib_method, pako_method, data, options) {
   const zlib_options = Object.assign({}, options);
 
   // hack for testing negative windowBits
-  if (zlib_options.windowBits < 0) { zlib_options.windowBits = -zlib_options.windowBits; }
+  if (zlib_options.windowBits < 0) {
+    zlib_options.windowBits = -zlib_options.windowBits;
+  }
 
   // Until zlib bindings will be implemented into deno, force equal result
   //var zlib_result = zlib_method(b, zlib_options);
@@ -68,13 +69,10 @@ function testSingle(zlib_method, pako_method, data, options) {
   // position (= no additional gzip headers used)
   if (options.ignore_os) zlib_result[9] = pako_result[9];
 
-  assert.assertEquals(new Uint8Array(pako_result), 
-    new Uint8Array(zlib_result));
+  assert.assertEquals(new Uint8Array(pako_result), new Uint8Array(zlib_result));
 }
 
-
 function testSamples(zlib_method, pako_method, samples, options) {
-
   Object.keys(samples).forEach(function (name) {
     const data = samples[name];
 
@@ -87,7 +85,6 @@ function testSamples(zlib_method, pako_method, samples, options) {
     testSingle(zlib_method, pako_method, data, options);
   });
 }
-
 
 function testInflate(samples, inflateOptions, deflateOptions) {
   let name, data, deflated, inflated;
@@ -117,13 +114,9 @@ function testInflate(samples, inflateOptions, deflateOptions) {
   }
 }
 
-
-
-
-
 export {
   cmpBuf,
   testSamples,
   testInflate,
-  loadSamples
-}
+  loadSamples,
+};

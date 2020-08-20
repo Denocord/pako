@@ -1,7 +1,5 @@
 // Deflate coverage tests
-'use strict';
-
-
+"use strict";
 
 import c from "../lib/zlib/constants.js";
 import msg from "../lib/zlib/messages.js";
@@ -14,9 +12,10 @@ import * as path from "https://deno.land/std@0.65.0/path/mod.ts";
 import { dirname } from "./helpers.js";
 const { __dirname } = dirname(import.meta);
 
-
-const short_sample = 'hello world';
-const long_sample = Deno.readFileSync(path.join(__dirname, 'fixtures/samples/lorem_en_100k.txt'));
+const short_sample = "hello world";
+const long_sample = Deno.readFileSync(
+  path.join(__dirname, "fixtures/samples/lorem_en_100k.txt"),
+);
 
 function testDeflate(data, opts, flush) {
   const deflator = new pako.Deflate(opts);
@@ -25,40 +24,42 @@ function testDeflate(data, opts, flush) {
 
   assert.equal(deflator.err, false, msg[deflator.err]);
 }
-const describe = (name, func) => func((_name, fn) => Deno.test({
-  name: `${name}: ${_name}`,
-  fn
-}));
+const describe = (name, func) =>
+  func((_name, fn) =>
+    Deno.test({
+      name: `${name}: ${_name}`,
+      fn,
+    })
+  );
 
-describe('Deflate support', function (it) {
-  it('stored', function () {
+describe("Deflate support", function (it) {
+  it("stored", function () {
     testDeflate(short_sample, { level: 0, chunkSize: 200 }, 0);
     testDeflate(short_sample, { level: 0, chunkSize: 10 }, 5);
   });
-  it('fast', function () {
+  it("fast", function () {
     testDeflate(short_sample, { level: 1, chunkSize: 10 }, 5);
     testDeflate(long_sample, { level: 1, memLevel: 1, chunkSize: 10 }, 0);
   });
-  it('slow', function () {
+  it("slow", function () {
     testDeflate(short_sample, { level: 4, chunkSize: 10 }, 5);
     testDeflate(long_sample, { level: 9, memLevel: 1, chunkSize: 10 }, 0);
   });
-  it('rle', function () {
+  it("rle", function () {
     testDeflate(short_sample, { strategy: 3 }, 0);
     testDeflate(short_sample, { strategy: 3, chunkSize: 10 }, 5);
     testDeflate(long_sample, { strategy: 3, chunkSize: 10 }, 0);
   });
-  it('huffman', function () {
+  it("huffman", function () {
     testDeflate(short_sample, { strategy: 2 }, 0);
     testDeflate(short_sample, { strategy: 2, chunkSize: 10 }, 5);
     testDeflate(long_sample, { strategy: 2, chunkSize: 10 }, 0);
-
   });
 });
 
-describe('Deflate states', function (it) {
+describe("Deflate states", function (it) {
   //in port checking input parameters was removed
-  it('inflate bad parameters', function () {
+  it("inflate bad parameters", function () {
     let ret, strm;
 
     ret = zlib_deflate.deflate(null, 0);

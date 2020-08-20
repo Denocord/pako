@@ -1,13 +1,11 @@
-'use strict';
+"use strict";
 
 import * as assert from "https://deno.land/std@0.65.0/testing/asserts.ts";
 import * as helpers from "./helpers.js";
 import * as pako_utils from "../lib/utils/common.js";
 import pako from "../mod.js";
 
-
 const samples = helpers.loadSamples();
-
 
 function randomBuf(size) {
   const buf = new pako_utils.Buf8(size);
@@ -41,41 +39,45 @@ function testChunk(buf, expected, packer, chunkSize) {
   //expected count of onData calls. 16384 output chunk size
   expFlushCount = Math.ceil(packer.result.length / 16384);
 
-  assert.assert(!packer.err, 'Packer error: ' + packer.err);
-  assert.assert(helpers.cmpBuf(packer.result, expected), 'Result is different');
-  assert.assertEquals(flushCount, expFlushCount, 'onData called ' + flushCount + 'times, expected: ' + expFlushCount);
+  assert.assert(!packer.err, "Packer error: " + packer.err);
+  assert.assert(helpers.cmpBuf(packer.result, expected), "Result is different");
+  assert.assertEquals(
+    flushCount,
+    expFlushCount,
+    "onData called " + flushCount + "times, expected: " + expFlushCount,
+  );
 }
 
-const it = (name, fn) => Deno.test({
-  name,
-  fn
-});
+const it = (name, fn) =>
+  Deno.test({
+    name,
+    fn,
+  });
 
-
-it('deflate 100b by 1b chunk', function () {
+it("deflate 100b by 1b chunk", function () {
   const buf = randomBuf(100);
   const deflated = pako.deflate(buf);
   testChunk(buf, deflated, new pako.Deflate(), 1);
 });
 
-it('deflate 20000b by 10b chunk', function () {
+it("deflate 20000b by 10b chunk", function () {
   const buf = randomBuf(20000);
   const deflated = pako.deflate(buf);
   testChunk(buf, deflated, new pako.Deflate(), 10);
 });
 
-it('inflate 100b result by 1b chunk', function () {
+it("inflate 100b result by 1b chunk", function () {
   const buf = randomBuf(100);
   const deflated = pako.deflate(buf);
   testChunk(deflated, buf, new pako.Inflate(), 1);
 });
 
-it('inflate 20000b result by 10b chunk', function () {
+it("inflate 20000b result by 10b chunk", function () {
   const buf = randomBuf(20000);
   const deflated = pako.deflate(buf);
   testChunk(deflated, buf, new pako.Inflate(), 10);
 });
-it('deflate end', function () {
+it("deflate end", function () {
   const data = samples.lorem_utf_100k;
 
   const deflator = new pako.Deflate();
@@ -85,7 +87,7 @@ it('deflate end', function () {
   assert.assert(helpers.cmpBuf(deflator.result, pako.deflate(data)));
 });
 
-it('inflate end', function () {
+it("inflate end", function () {
   const data = pako.deflate(samples.lorem_utf_100k);
 
   const inflator = new pako.Inflate();
@@ -95,7 +97,7 @@ it('inflate end', function () {
   assert.assert(helpers.cmpBuf(inflator.result, pako.inflate(data)));
 });
 
-it('should be ok on buffer border', function () {
+it("should be ok on buffer border", function () {
   let i;
   const data = new Uint8Array(1024 * 16 + 1);
 
@@ -109,11 +111,11 @@ it('should be ok on buffer border', function () {
 
   for (i = 0; i < deflated.length; i++) {
     inflator.push(deflated.subarray(i, i + 1), false);
-    assert.assert(!inflator.err, 'Inflate failed with status ' + inflator.err);
+    assert.assert(!inflator.err, "Inflate failed with status " + inflator.err);
   }
 
   inflator.push(new Uint8Array(0), true);
 
-  assert.assert(!inflator.err, 'Inflate failed with status ' + inflator.err);
+  assert.assert(!inflator.err, "Inflate failed with status " + inflator.err);
   assert.assert(helpers.cmpBuf(data, inflator.result));
 });

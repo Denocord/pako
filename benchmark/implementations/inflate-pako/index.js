@@ -1,8 +1,7 @@
-'use strict'
+"use strict";
 
-var pako = require('../../../');
+var pako = require("../../../");
 
-exports.run = function(data) {
-  return pako.inflate(data.deflateTyped, {
-  });
-}
+exports.run = function (data) {
+  return pako.inflate(data.deflateTyped, {});
+};

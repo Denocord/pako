@@ -1,14 +1,14 @@
 // Top level file is just a mixin of submodules & constants
-'use strict';
+"use strict";
 
 import * as deflate from "./lib/deflate.js";
 import * as inflate from "./lib/inflate.js";
 import constants from "./lib/zlib/constants.js";
 
 const pako = {
-    ...deflate,
-    ...inflate,
-    constants
+  ...deflate,
+  ...inflate,
+  constants,
 };
 
 export default pako;
