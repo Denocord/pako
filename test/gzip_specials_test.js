@@ -3,8 +3,8 @@
 
 'use strict';
 
-import * as assert from "https://deno.land/std@v0.65.0/testing/asserts.ts";
-import * as path from "https://deno.land/std@v0.65.0/path/mod.ts";
+import * as assert from "https://deno.land/std@0.65.0/testing/asserts.ts";
+import * as path from "https://deno.land/std@0.65.0/path/mod.ts";
 import * as pako_utils from "../lib/utils/common.js";
 import pako from "../mod.js";
 import { cmpBuf as cmp, dirname } from "./helpers.js";

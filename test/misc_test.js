@@ -4,8 +4,8 @@
 'use strict';
 
 import pako from "../mod.js";
-import * as assert from "https://deno.land/std@v0.65.0/testing/asserts.ts";
-import * as path from "https://deno.land/std@v0.65.0/path/mod.ts";
+import * as assert from "https://deno.land/std@0.65.0/testing/asserts.ts";
+import * as path from "https://deno.land/std@0.65.0/path/mod.ts";
 
 import { dirname } from "./helpers.js";
 const { __dirname } = dirname(import.meta);
