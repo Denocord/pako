@@ -8,8 +8,8 @@
 var zlib = {};
 import pako from "../mod.js";
 import { testSamples, loadSamples, dirname, cmpBuf } from "./helpers.js";
-import * as assert from "https://deno.land/std@v0.50.0/testing/asserts.ts";
-import * as path from "https://deno.land/std@v0.50.0/path/mod.ts";
+import * as assert from "https://deno.land/std@0.65.0/testing/asserts.ts";
+import * as path from "https://deno.land/std@0.65.0/path/mod.ts";
 const _te = new TextEncoder();
 const b = d => {
   if (d instanceof Uint8Array) return d;
